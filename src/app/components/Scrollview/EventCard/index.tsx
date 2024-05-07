@@ -1,5 +1,5 @@
 import { EventData } from "@/app/types";
-import { Box, Image, Stack, HStack, Text } from "@chakra-ui/react";
+import { Box, Image, Stack, HStack } from "@chakra-ui/react";
 import { H4, H5 } from "../../Typography";
 import { Info } from "@phosphor-icons/react";
 
@@ -15,14 +15,7 @@ export const EventCard = ({ event }: { event: EventData }) => {
       position={"relative"}
       margin={".5rem"}
     >
-      <Image
-        top={0}
-        src={img}
-        height="45vh"
-        width="45vh"
-        objectFit={"cover"}
-        filter={"brightness(80%)"}
-      />
+      <Image top={0} src={img} height="45vh" width="45vh" objectFit={"cover"} />
       <Stack
         position={"absolute"}
         top={0}

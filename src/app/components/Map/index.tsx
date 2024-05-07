@@ -49,6 +49,7 @@ export const Map = forwardRef(
             latitude={i.lat}
             anchor="bottom"
             onClick={() => handleMarkerOnClick(i._id)}
+            style={{ zIndex: isActive ? 1 : 0 }}
           >
             <MapPin
               color={isActive ? "red" : "black"}

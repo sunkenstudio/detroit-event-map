@@ -45,6 +45,12 @@ export const Scrollview = ({
             const { activeIndex } = swiperCore;
             setActiveEvent(todaysEvents[activeIndex]);
           }}
+          breakpoints={{
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 50,
+            },
+          }}
         >
           {renderCards()}
         </Swiper>

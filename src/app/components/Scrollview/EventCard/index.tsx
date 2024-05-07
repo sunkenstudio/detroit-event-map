@@ -8,6 +8,7 @@ export const EventCard = ({ event }: { event: EventData }) => {
   return (
     <Box
       height={"45vh"}
+      maxW={"45vh"}
       zIndex={10}
       display={"flex"}
       alignItems={"center"}

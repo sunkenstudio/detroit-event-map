@@ -33,3 +33,13 @@ export const sortEventsByDistance = (
   });
   return sortable;
 };
+
+const getBaseUrl = () => {
+  const env = process.env.NODE_ENV;
+  if (env === "development") {
+    return "http://localhost:5000";
+  }
+  return "https://detroiteventmap.com/api";
+};
+
+export const BASE_URL = getBaseUrl();

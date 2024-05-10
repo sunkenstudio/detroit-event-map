@@ -1,5 +1,5 @@
 import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
-import { Montserrat } from "next/font/google";
+import { Montserrat, IBM_Plex_Serif } from "next/font/google";
 
 const config: ThemeConfig = {
   initialColorMode: "light",
@@ -7,7 +7,12 @@ const config: ThemeConfig = {
 };
 
 // Import the weights and subsets, add any other config here as well
-const nextFont = Montserrat({
+const montserrat = Montserrat({
+  weight: ["400"],
+  subsets: ["latin"],
+});
+
+const ibmPlexSerif = IBM_Plex_Serif({
   weight: ["400"],
   subsets: ["latin"],
 });
@@ -25,8 +30,8 @@ const theme = extendTheme({
   breakpoints,
   config,
   fonts: {
-    body: `${nextFont.style.fontFamily}, serif`,
-    heading: `${nextFont.style.fontFamily}, serif`,
+    body: `${montserrat.style.fontFamily}, serif`,
+    heading: `${ibmPlexSerif.style.fontFamily}, serif`,
   },
 });
 

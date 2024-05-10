@@ -16,10 +16,10 @@ export const DateTab = ({
 }: DateTabProps) => {
   const getFormattedDate = () => {
     if (selectedDate.isSame(moment(), "day")) {
-      return "Today";
+      return "TODAY";
     }
     if (selectedDate.isSame(moment().add(1, "day"), "day")) {
-      return "Tomorrow";
+      return "TOMORROW";
     }
     if (selectedDate.isSame(moment(), "month")) {
       return selectedDate.format("dddd [the] Do");
@@ -37,14 +37,14 @@ export const DateTab = ({
       width={"100%"}
       textAlign={"center"}
     >
-      {formattedDate !== "Today" ? (
+      {formattedDate !== "TODAY" ? (
         <Button backgroundColor="transparent" onClick={() => decrementDate()}>
           <CaretCircleLeft size={32} />
         </Button>
       ) : (
         <Box h={"32px"} w={"32px"} />
       )}
-      <Text>{formattedDate}</Text>
+      <Text fontWeight={"bold"}>{formattedDate}</Text>
       <Button backgroundColor="transparent" onClick={() => incrementDate()}>
         <CaretCircleRight size={32} />
       </Button>

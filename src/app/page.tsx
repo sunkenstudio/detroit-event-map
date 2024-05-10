@@ -9,8 +9,10 @@ import { BASE_URL } from "./constants";
 import { sortEventsByDistance } from "./utils";
 import { DEFAULT_DET_COORDS } from "./components/Map/constants";
 import { DateTab } from "./components/DateTab";
-import { Box } from "@chakra-ui/react";
-import { H4 } from "./components/Typography";
+import { Box, Button } from "@chakra-ui/react";
+import { H3, H4 } from "./components/Typography";
+import { ArrowCircleDown, ArrowCircleUp } from "@phosphor-icons/react";
+import { Header } from "./components/Header";
 
 export default function Home() {
   const mapRef = useRef(null);
@@ -20,7 +22,8 @@ export default function Home() {
   const [selectedDate, setSelectedDate] = useState(moment());
   const [allEvents, setAllEvents] = useState<EventData[]>([]);
   const [location, setLocation] = useState<Coordinates | null>(null);
-
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [initialExpand, setInitialExpand] = useState(false);
   useEffect(() => {
     if ("geolocation" in navigator) {
       // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
@@ -64,14 +67,20 @@ export default function Home() {
       const filteredEvents = allEvents.filter((i) => i.date === todaysDate);
       const sortedEvents = sortEventsByDistance(filteredEvents, location);
       setTodaysEvents(sortedEvents);
-      setActiveEvent(sortedEvents[0]);
-      swiperInstance?.slideTo(0);
-      const { lat, lng } = sortedEvents[0];
-      //@ts-ignore
-      mapRef.current?.flyTo({
-        center: [lng, lat],
-        zoom: 15,
-      });
+      if (sortedEvents.length > 0) {
+        setActiveEvent(sortedEvents[0]);
+        swiperInstance?.slideTo(0);
+        const { lat, lng } = sortedEvents[0];
+        //@ts-ignore
+        mapRef.current?.flyTo({
+          center: [lng, lat],
+          zoom: 15,
+        });
+      }
+      if (!initialExpand) {
+        setTimeout(() => setIsExpanded(true), 1500);
+        setInitialExpand(true);
+      }
     }
   }, [allEvents, selectedDate]);
 
@@ -88,11 +97,7 @@ export default function Home() {
   };
 
   return (
-    <main
-      style={{
-        overflow: "hidden",
-      }}
-    >
+    <main style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
       <Map
         ref={mapRef}
         todaysEvents={todaysEvents}
@@ -100,28 +105,39 @@ export default function Home() {
         setActiveEvent={setActiveEvent}
         slideToIndex={(idx) => swiperInstance?.slideTo(idx)}
       />
-      <Box
-        position={"absolute"}
-        top={0}
-        left={"-5px"}
-        right={"-5px"}
-        textAlign={"center"}
-        backgroundColor={"#000000e6"}
-        color="white"
-        h={"4rem"}
-        display={"flex"}
-        alignItems={"center"}
-        justifyContent={"center"}
-      >
-        <H4>DETROIT EVENT MAP</H4>
-      </Box>
+      <Header />
       <DateTab
         selectedDate={selectedDate}
         incrementDate={incrementDate}
         decrementDate={decrementDate}
       />
+      {todaysEvents.length > 0 && (
+        <Box
+          position={"absolute"}
+          bottom={"48vh"}
+          style={{
+            transform: isExpanded ? "translateY(0)" : "translateY(30vh)",
+            transition: "transform 0.3s ease",
+          }}
+        >
+          <Button
+            onClick={() => setIsExpanded(!isExpanded)}
+            p={".5rem"}
+            borderRadius={".25rem"}
+            ml={".25rem"}
+            backgroundColor={"transparent"}
+          >
+            {isExpanded ? (
+              <ArrowCircleDown size={48} />
+            ) : (
+              <ArrowCircleUp size={48} />
+            )}
+          </Button>
+        </Box>
+      )}
       <Scrollview
         todaysEvents={todaysEvents}
+        isExpanded={isExpanded}
         setSwiperInstance={setSwiperInstance}
         setActiveEvent={setActiveEvent}
       />

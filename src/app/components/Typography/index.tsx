@@ -6,73 +6,37 @@ interface HeaderProps extends ChakraProps {
 }
 
 const H1 = ({ children, ...rest }: HeaderProps) => (
-  <Heading
-    as="h1"
-    fontFamily={"inherit"}
-    size="4xl"
-    css={{ width: "auto" }}
-    {...rest}
-  >
+  <Heading as="h1" size="4xl" css={{ width: "auto" }} {...rest}>
     {children}
   </Heading>
 );
 
 const H2 = ({ children, ...rest }: HeaderProps) => (
-  <Heading
-    as="h2"
-    fontFamily={"inherit"}
-    size="3xl"
-    css={{ width: "auto" }}
-    {...rest}
-  >
+  <Heading as="h2" size="3xl" css={{ width: "auto" }} {...rest}>
     {children}
   </Heading>
 );
 
 const H3 = ({ children, ...rest }: HeaderProps) => (
-  <Heading
-    as="h3"
-    fontFamily={"inherit"}
-    size="xl"
-    css={{ width: "auto" }}
-    {...rest}
-  >
+  <Heading as="h3" size="xl" css={{ width: "auto" }} {...rest}>
     {children}
   </Heading>
 );
 
 const H4 = ({ children, ...rest }: HeaderProps) => (
-  <Heading
-    as="h4"
-    fontFamily={"inherit"}
-    size="md"
-    css={{ width: "auto" }}
-    {...rest}
-  >
+  <Heading as="h4" size="md" css={{ width: "auto" }} {...rest}>
     {children}
   </Heading>
 );
 
 const H5 = ({ children, ...rest }: HeaderProps) => (
-  <Heading
-    as="h5"
-    fontFamily={"inherit"}
-    size="sm"
-    css={{ width: "auto" }}
-    {...rest}
-  >
+  <Heading as="h5" size="sm" css={{ width: "auto" }} {...rest}>
     {children}
   </Heading>
 );
 
 const H6 = ({ children, ...rest }: HeaderProps) => (
-  <Heading
-    as="h6"
-    fontFamily={"inherit"}
-    size="xs"
-    css={{ width: "auto" }}
-    {...rest}
-  >
+  <Heading as="h6" size="xs" css={{ width: "auto" }} {...rest}>
     {children}
   </Heading>
 );

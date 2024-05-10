@@ -1,3 +1,5 @@
+import { EventData } from "../types";
+
 export function distance(
   lat1: number,
   lon1: number,
@@ -17,3 +19,17 @@ export function distance(
 
   return 2 * r * Math.asin(Math.sqrt(a));
 }
+
+export const sortEventsByDistance = (
+  events: EventData[],
+  center: { lat: number; lng: number }
+) => {
+  const sortable: EventData[] = [...events];
+
+  sortable.sort(function (a: EventData, b: EventData) {
+    const distanceA = distance(center.lat, center.lng, a.lat, a.lng);
+    const distanceB = distance(center.lat, center.lng, b.lat, b.lng);
+    return distanceA - distanceB;
+  });
+  return sortable;
+};

@@ -12,6 +12,7 @@ interface ScrollviewProps {
   setActiveEvent: Dispatch<SetStateAction<EventData | null>>;
   setSwiperInstance: Dispatch<SetStateAction<any>>;
 }
+
 export const Scrollview = ({
   todaysEvents,
   setActiveEvent,
@@ -19,7 +20,10 @@ export const Scrollview = ({
 }: ScrollviewProps) => {
   const renderCards = () => {
     return todaysEvents.map((i) => (
-      <SwiperSlide key={`card-${i._id}`}>
+      <SwiperSlide
+        key={`card-${i._id}`}
+        style={{ width: "45vh", height: "45vh" }}
+      >
         <EventCard event={i} />
       </SwiperSlide>
     ));
@@ -31,15 +35,15 @@ export const Scrollview = ({
         overflow={"hidden"}
         zIndex={999}
         position={"absolute"}
-        bottom={0}
+        bottom={"1rem"}
         left={0}
         right={0}
         height={"45vh"}
       >
         <Swiper
           onSwiper={setSwiperInstance}
-          slidesPerView={1}
-          spaceBetween={10}
+          slidesPerView={1.25}
+          spaceBetween={20}
           centeredSlides={true}
           onSlideChange={(swiperCore) => {
             const { activeIndex } = swiperCore;
@@ -47,8 +51,8 @@ export const Scrollview = ({
           }}
           breakpoints={{
             1024: {
-              slidesPerView: 3,
-              spaceBetween: 50,
+              slidesPerView: 3.5,
+              spaceBetween: 10,
             },
           }}
         >

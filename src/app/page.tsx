@@ -6,9 +6,11 @@ import SwiperCore from "swiper";
 import { Scrollview } from "./components/Scrollview";
 import moment from "moment";
 import { BASE_URL } from "./constants";
-import { distance } from "./utils";
+import { sortEventsByDistance } from "./utils";
 import { DEFAULT_DET_COORDS } from "./components/Map/constants";
 import { DateTab } from "./components/DateTab";
+import { Box } from "@chakra-ui/react";
+import { H4 } from "./components/Typography";
 
 export default function Home() {
   const mapRef = useRef(null);
@@ -63,22 +65,15 @@ export default function Home() {
       const sortedEvents = sortEventsByDistance(filteredEvents, location);
       setTodaysEvents(sortedEvents);
       setActiveEvent(sortedEvents[0]);
+      swiperInstance?.slideTo(0);
+      const { lat, lng } = sortedEvents[0];
+      //@ts-ignore
+      mapRef.current?.flyTo({
+        center: [lng, lat],
+        zoom: 15,
+      });
     }
   }, [allEvents, selectedDate]);
-
-  const sortEventsByDistance = (
-    events: EventData[],
-    center: { lat: number; lng: number }
-  ) => {
-    const sortable: EventData[] = [...events];
-
-    sortable.sort(function (a: EventData, b: EventData) {
-      const distanceA = distance(center.lat, center.lng, a.lat, a.lng);
-      const distanceB = distance(center.lat, center.lng, b.lat, b.lng);
-      return distanceA - distanceB;
-    });
-    return sortable;
-  };
 
   const incrementDate = () => {
     const newDate = moment(selectedDate).add(1, "days");
@@ -105,6 +100,21 @@ export default function Home() {
         setActiveEvent={setActiveEvent}
         slideToIndex={(idx) => swiperInstance?.slideTo(idx)}
       />
+      <Box
+        position={"absolute"}
+        top={0}
+        left={"-5px"}
+        right={"-5px"}
+        textAlign={"center"}
+        backgroundColor={"#000000e6"}
+        color="white"
+        h={"4rem"}
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <H4>DETROIT EVENT MAP</H4>
+      </Box>
       <DateTab
         selectedDate={selectedDate}
         incrementDate={incrementDate}

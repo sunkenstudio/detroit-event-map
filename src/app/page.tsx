@@ -10,7 +10,6 @@ import { sortEventsByDistance } from "./utils";
 import { DEFAULT_DET_COORDS } from "./components/Map/constants";
 import { DateTab } from "./components/DateTab";
 import { Box, Button } from "@chakra-ui/react";
-import { H3, H4 } from "./components/Typography";
 import { ArrowCircleDown, ArrowCircleUp } from "@phosphor-icons/react";
 import { Header } from "./components/Header";
 

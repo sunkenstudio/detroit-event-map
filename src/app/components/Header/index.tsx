@@ -64,17 +64,19 @@ export const Header = () => {
             <Stack gap={3}>
               <H3>WHAT IS THIS?</H3>
               <Paragraph>
-                I made this thing to make it easier to see nearby stuff without
+                {`I made this thing to make it easier to see nearby stuff without
                 having to dig through social media and tbh I've been spending
-                too much time at home lately.
+                too much time at home lately.`}
               </Paragraph>
               <Paragraph>
-                Currently the app only tracks what's going on this week with{" "}
-                <strong>
-                  new events getting added automatically every Sunday @ 9:00am
-                </strong>
-                . Could probably expand that out to a month if people wanted,
-                but personally, I'm not that much of a planner.
+                {`Currently the app only tracks what's going on this week with ` +
+                  (
+                    <strong>
+                      {`new events getting added automatically every Sunday @ 9:00am`}
+                    </strong>
+                  ) +
+                  `. Could probably expand that out to a month if people wanted,
+                but personally, I'm not that much of a planner.`}
               </Paragraph>
               <H3>SOURCES</H3>
               <ul>
@@ -85,31 +87,34 @@ export const Header = () => {
                 </li>
               </ul>
               <Paragraph>
-                I just pull public data and throw it on a map. Please consider
+                {`I just pull public data and throw it on a map. Please consider
                 subscribing to the actual sources doing the real work. If you
                 happen to meet anyone working for these sources, please buy them
-                many beers.
+                many beers.`}
               </Paragraph>
               <H3>COVERING MY ASS</H3>
               <Paragraph>
-                <strong>IMPORTANT!</strong> All these events are just being
+                <strong>IMPORTANT!</strong>{" "}
+                {`All these events are just being
                 pulled off the internet, so please use your brain and maybe
-                don't show up if it looks like it could be some sketchy shit.
+                don't show up if it looks like it could be some sketchy shit.`}
               </Paragraph>
               <Paragraph>
-                I do not claim ownership of any content you see in these events
+                {`I do not claim ownership of any content you see in these events
                 and I am not currently monetizing this site in any way. You can
                 find a link to the original sources by clicking the information
-                icon on each event.
+                icon on each event.`}
               </Paragraph>
               <H3>THANKS AGAIN</H3>
               <Paragraph>
-                That's everything! Thanks for using Detroit Event Map and feel
-                free to drop me a message at{" "}
-                <Link href="mailto:dan@sunkenstudio.com">
-                  dan@sunkenstudio.com
-                </Link>{" "}
-                with any questions, comments, concerns.
+                {`That's everything! Thanks for using Detroit Event Map and feel
+                free to drop me a message at ` +
+                  (
+                    <Link href="mailto:dan@sunkenstudio.com">
+                      dan@sunkenstudio.com
+                    </Link>
+                  ) +
+                  ` with any questions, comments, concerns.`}
               </Paragraph>
               <Paragraph>Much love,</Paragraph>
               <Paragraph>D.</Paragraph>

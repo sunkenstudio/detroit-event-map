@@ -98,3 +98,5 @@ export const Map = forwardRef(
     );
   }
 );
+
+Map.displayName = "Map";

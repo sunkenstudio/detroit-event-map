@@ -95,7 +95,7 @@ export default function Home() {
   };
 
   return (
-    <main style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
+    <main style={{ height: "100dvh", width: "100vw", overflow: "hidden" }}>
       <Map
         ref={mapRef}
         todaysEvents={todaysEvents}
@@ -112,9 +112,9 @@ export default function Home() {
       {todaysEvents.length > 0 && (
         <Box
           position={"absolute"}
-          bottom={"48vh"}
+          bottom={"48dvh"}
           style={{
-            transform: isExpanded ? "translateY(0)" : "translateY(30vh)",
+            transform: isExpanded ? "translateY(0)" : "translateY(30dvh)",
             transition: "transform 0.3s ease",
           }}
         >

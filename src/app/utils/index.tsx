@@ -37,7 +37,7 @@ export const sortEventsByDistance = (
 const getBaseUrl = () => {
   const env = process.env.NODE_ENV;
   if (env === "development") {
-    return "http://localhost:5000";
+    return "http://localhost:5000/api";
   }
   return "https://detroiteventmap.com/api";
 };

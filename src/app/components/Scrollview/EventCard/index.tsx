@@ -64,7 +64,7 @@ export const EventCard = ({ event }: { event: EventData }) => {
           padding={".5rem"}
           display={"block"}
           shadow={"0px 4px 16px rgba(255, 255, 255, 0.7)"}
-          maxW={"22vh"}
+          maxW={"22dvh"}
           noOfLines={2}
           overflow={"hidden"}
           maxH={"4rem"}
@@ -80,7 +80,7 @@ export const EventCard = ({ event }: { event: EventData }) => {
             padding={".5rem"}
             display={"block"}
             shadow={"0px 4px 16px rgba(255, 255, 255, 0.7)"}
-            maxW={"22vh"}
+            maxW={"22dvh"}
             noOfLines={2}
             overflow={"hidden"}
             maxH={"4rem"}

@@ -20,13 +20,13 @@ export const Scrollview = ({
   setActiveEvent,
   setSwiperInstance,
 }: ScrollviewProps) => {
-  const transformStyle = isExpanded ? "translateY(0)" : "translateY(30vh)";
+  const transformStyle = isExpanded ? "translateY(0)" : "translateY(30dvh)";
 
   const renderCards = () => {
     return todaysEvents.map((i) => (
       <SwiperSlide
         key={`card-${i._id}`}
-        style={{ width: "45vh", height: "45vh" }}
+        style={{ width: "45dvh", height: "45dvh" }}
       >
         <EventCard event={i} />
       </SwiperSlide>
@@ -41,7 +41,7 @@ export const Scrollview = ({
         bottom={"1rem"}
         left={0}
         right={0}
-        height={"45vh"}
+        height={"45dvh"}
         style={{ transform: transformStyle, transition: "transform 0.3s ease" }}
       >
         <Swiper

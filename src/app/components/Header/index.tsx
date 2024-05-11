@@ -95,8 +95,12 @@ export const Header = () => {
               <Paragraph>
                 <strong>I don't want your data. </strong>
                 {`It's yours and it should stay that way. 
-                When the site asks for your location that info never leaves your browser/phone. 
-                It's just used to sort the events by distance from you.`}
+                When the site asks for your location, it's not storing that information anywhere. 
+                It's just used to sort the events by distance from you. `}
+                <strong>
+                  The site is fully usable without enabling location services
+                </strong>
+                {`, it'll just set your location to downtown.`}
               </Paragraph>
               <H3>THANKS AGAIN</H3>
               <Paragraph>

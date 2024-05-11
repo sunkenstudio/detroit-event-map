@@ -39,7 +39,7 @@ const getBaseUrl = () => {
   if (env === "development") {
     return "http://localhost:5000";
   }
-  return "http://detroiteventmap.com/api";
+  return "https://detroiteventmap.com/api";
 };
 
 export const BASE_URL = getBaseUrl();

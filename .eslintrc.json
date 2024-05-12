@@ -5,8 +5,8 @@
     "next",
     "eslint:recommended",
     "prettier",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:storybook/recommended"
+    "plugin:@typescript-eslint/recommended"
+    // "plugin:storybook/recommended"
   ],
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {

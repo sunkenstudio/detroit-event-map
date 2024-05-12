@@ -1,16 +1,16 @@
-"use client";
-import { Map } from "./components/Map";
-import { useEffect, useRef, useState } from "react";
-import { Coordinates, EventData } from "./types";
-import SwiperCore from "swiper";
-import { Scrollview } from "./components/Scrollview";
-import moment from "moment";
-import { BASE_URL, sortEventsByDistance } from "./utils";
-import { DEFAULT_DET_COORDS } from "./components/Map/constants";
-import { DateTab } from "./components/DateTab";
-import { Box, Button } from "@chakra-ui/react";
-import { ArrowCircleDown, ArrowCircleUp } from "@phosphor-icons/react";
-import { Header } from "./components/Header";
+'use client';
+import { Map } from './components/Map';
+import { useEffect, useRef, useState } from 'react';
+import { Coordinates, EventData } from './types';
+import SwiperCore from 'swiper';
+import { Scrollview } from './components/Scrollview';
+import moment from 'moment';
+import { BASE_URL, sortEventsByDistance } from './utils';
+import { DEFAULT_DET_COORDS } from './components/Map/constants';
+import { DateTab } from './components/DateTab';
+import { Box, Button } from '@chakra-ui/react';
+import { ArrowCircleDown, ArrowCircleUp } from '@phosphor-icons/react';
+import { Header } from './components/Header';
 
 export default function Home() {
   const mapRef = useRef(null);
@@ -23,7 +23,7 @@ export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [initialExpand, setInitialExpand] = useState(false);
   useEffect(() => {
-    if ("geolocation" in navigator) {
+    if ('geolocation' in navigator) {
       // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
@@ -41,11 +41,11 @@ export default function Home() {
 
   useEffect(() => {
     if (location) {
-      const url = BASE_URL + "/events";
+      const url = BASE_URL + '/events';
       fetch(url, {
-        mode: "cors",
+        mode: 'cors',
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          'Access-Control-Allow-Origin': '*',
         },
       })
         .then((res) => {
@@ -61,7 +61,7 @@ export default function Home() {
 
   useEffect(() => {
     if (allEvents.length > 0 && location) {
-      const todaysDate = selectedDate.format("YYYY-MM-DD");
+      const todaysDate = selectedDate.format('YYYY-MM-DD');
       const filteredEvents = allEvents.filter((i) => i.date === todaysDate);
       const sortedEvents = sortEventsByDistance(filteredEvents, location);
       setTodaysEvents(sortedEvents);
@@ -83,19 +83,19 @@ export default function Home() {
   }, [allEvents, selectedDate]);
 
   const incrementDate = () => {
-    const newDate = moment(selectedDate).add(1, "days");
+    const newDate = moment(selectedDate).add(1, 'days');
     setSelectedDate(newDate);
   };
 
   const decrementDate = () => {
     if (selectedDate.isAfter(moment())) {
-      const newDate = moment(selectedDate).subtract(1, "days");
+      const newDate = moment(selectedDate).subtract(1, 'days');
       setSelectedDate(newDate);
     }
   };
 
   return (
-    <main style={{ height: "100dvh", width: "100vw", overflow: "hidden" }}>
+    <main style={{ height: '100dvh', width: '100vw', overflow: 'hidden' }}>
       <Map
         ref={mapRef}
         todaysEvents={todaysEvents}
@@ -111,19 +111,19 @@ export default function Home() {
       />
       {todaysEvents.length > 0 && (
         <Box
-          position={"absolute"}
-          bottom={"48dvh"}
+          position={'absolute'}
+          bottom={'48dvh'}
           style={{
-            transform: isExpanded ? "translateY(0)" : "translateY(30dvh)",
-            transition: "transform 0.3s ease",
+            transform: isExpanded ? 'translateY(0)' : 'translateY(30dvh)',
+            transition: 'transform 0.3s ease',
           }}
         >
           <Button
             onClick={() => setIsExpanded(!isExpanded)}
-            p={".5rem"}
-            borderRadius={".25rem"}
-            ml={".25rem"}
-            backgroundColor={"transparent"}
+            p={'.5rem'}
+            borderRadius={'.25rem'}
+            ml={'.25rem'}
+            backgroundColor={'transparent'}
           >
             {isExpanded ? (
               <ArrowCircleDown size={48} />

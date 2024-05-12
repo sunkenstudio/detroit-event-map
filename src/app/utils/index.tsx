@@ -1,4 +1,4 @@
-import { EventData } from "../types";
+import { EventData } from '../types';
 
 export function distance(
   lat1: number,
@@ -36,10 +36,10 @@ export const sortEventsByDistance = (
 
 const getBaseUrl = () => {
   const env = process.env.NODE_ENV;
-  if (env === "development") {
-    return "http://localhost:5000/api";
+  if (env === 'development') {
+    return 'http://localhost:5000/api';
   }
-  return "https://detroiteventmap.com/api";
+  return 'https://detroiteventmap.com/api';
 };
 
 export const BASE_URL = getBaseUrl();

@@ -1,4 +1,4 @@
-import { Coordinates } from "@/app/types";
+import { Coordinates } from '@/app/types';
 
 export const DEFAULT_DET_COORDS: Coordinates = {
   lat: 42.331429,

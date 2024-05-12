@@ -5,8 +5,8 @@ import { CaretCircleRight, CaretCircleLeft } from '@phosphor-icons/react';
 
 interface DateTabProps {
   selectedDate: Moment;
-  incrementDate: Function;
-  decrementDate: Function;
+  incrementDate: () => void;
+  decrementDate: () => void;
 }
 
 export const DateTab = ({

@@ -31,6 +31,7 @@ export default function Home() {
           setLocation({ lat: latitude, lng: longitude });
         },
         (error) => {
+          console.log(error);
           setLocation(DEFAULT_DET_COORDS);
         }
       );

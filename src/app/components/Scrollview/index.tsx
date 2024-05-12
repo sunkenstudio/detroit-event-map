@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -11,7 +12,7 @@ interface ScrollviewProps {
   todaysEvents: EventData[];
   isExpanded: boolean;
   setActiveEvent: Dispatch<SetStateAction<EventData | null>>;
-  setSwiperInstance: Dispatch<SetStateAction<any>>;
+  setSwiperInstance: Dispatch<SetStateAction<SwiperCore>>;
 }
 
 export const Scrollview = ({

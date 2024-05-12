@@ -93,7 +93,7 @@ export const Header = () => {
               </Paragraph>
               <H3>YOUR PRIVACY</H3>
               <Paragraph>
-                <strong>I don't want your data. </strong>
+                <strong>{`I don't want your data. `}</strong>
                 {`It's yours and it should stay that way. 
                 When the site asks for your location, it's not storing that information anywhere. 
                 It's just used to sort the events by distance from you. `}

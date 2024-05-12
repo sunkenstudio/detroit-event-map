@@ -12,7 +12,7 @@ interface ScrollviewProps {
   todaysEvents: EventData[];
   isExpanded: boolean;
   setActiveEvent: Dispatch<SetStateAction<EventData | null>>;
-  setSwiperInstance: Dispatch<SetStateAction<SwiperCore | null>>;
+  setSwiperInstance: Dispatch<SetStateAction<SwiperCore | undefined>>;
 }
 
 export const Scrollview = ({

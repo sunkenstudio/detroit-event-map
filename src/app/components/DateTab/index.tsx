@@ -3,7 +3,7 @@ import moment, { Moment } from 'moment';
 import { Box, Button, HStack, Text } from '@chakra-ui/react';
 import { CaretCircleRight, CaretCircleLeft } from '@phosphor-icons/react';
 
-interface DateTabProps {
+export interface DateTabProps {
   selectedDate: Moment;
   incrementDate: () => void;
   decrementDate: () => void;

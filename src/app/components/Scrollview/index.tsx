@@ -1,17 +1,18 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import React, { Dispatch, SetStateAction } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore from 'swiper';
 
-import "swiper/css";
-import "swiper/css/pagination";
-import { EventData } from "@/app/types";
-import { Box } from "@chakra-ui/react";
-import { EventCard } from "./EventCard";
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { EventData } from '@/app/types';
+import { Box } from '@chakra-ui/react';
+import { EventCard } from './EventCard';
 
 interface ScrollviewProps {
   todaysEvents: EventData[];
   isExpanded: boolean;
   setActiveEvent: Dispatch<SetStateAction<EventData | null>>;
-  setSwiperInstance: Dispatch<SetStateAction<any>>;
+  setSwiperInstance: Dispatch<SetStateAction<SwiperCore | undefined>>;
 }
 
 export const Scrollview = ({
@@ -20,13 +21,13 @@ export const Scrollview = ({
   setActiveEvent,
   setSwiperInstance,
 }: ScrollviewProps) => {
-  const transformStyle = isExpanded ? "translateY(0)" : "translateY(30dvh)";
+  const transformStyle = isExpanded ? 'translateY(0)' : 'translateY(30dvh)';
 
   const renderCards = () => {
     return todaysEvents.map((i) => (
       <SwiperSlide
         key={`card-${i._id}`}
-        style={{ width: "45dvh", height: "45dvh" }}
+        style={{ width: '45dvh', height: '45dvh' }}
       >
         <EventCard event={i} />
       </SwiperSlide>
@@ -37,12 +38,12 @@ export const Scrollview = ({
     return (
       <Box
         zIndex={999}
-        position={"absolute"}
-        bottom={"1rem"}
+        position={'absolute'}
+        bottom={'1rem'}
         left={0}
         right={0}
-        height={"45dvh"}
-        style={{ transform: transformStyle, transition: "transform 0.3s ease" }}
+        height={'45dvh'}
+        style={{ transform: transformStyle, transition: 'transform 0.3s ease' }}
       >
         <Swiper
           onSwiper={setSwiperInstance}

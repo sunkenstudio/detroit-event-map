@@ -1,11 +1,11 @@
-"use client";
-import React, { useEffect, forwardRef } from "react";
-import { Map as MapboxMap, Marker } from "react-map-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { EventData } from "@/app/types";
-import { MapPin } from "@phosphor-icons/react";
-import { DEFAULT_DET_COORDS } from "./constants";
-import { Box } from "@chakra-ui/react";
+'use client';
+import React, { useEffect, forwardRef } from 'react';
+import { Map as MapboxMap, Marker } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import { EventData } from '@/app/types';
+import { MapPin } from '@phosphor-icons/react';
+import { DEFAULT_DET_COORDS } from './constants';
+import { Box } from '@chakra-ui/react';
 
 // import the mapbox-gl styles so that the map is displayed correctly
 
@@ -52,7 +52,7 @@ export const Map = forwardRef(
             style={{ zIndex: isActive ? 1 : 0 }}
           >
             <MapPin
-              color={isActive ? "red" : "black"}
+              color={isActive ? 'red' : 'black'}
               weight="fill"
               size={32}
             />
@@ -63,8 +63,8 @@ export const Map = forwardRef(
 
     return (
       <Box
-        overflow={"hidden"}
-        position={"absolute"}
+        overflow={'hidden'}
+        position={'absolute'}
         top={0}
         bottom={0}
         left={0}
@@ -80,7 +80,7 @@ export const Map = forwardRef(
           }}
           mapStyle="mapbox://styles/mapbox/light-v11"
           style={{
-            position: "absolute",
+            position: 'absolute',
             top: 0,
             bottom: 0,
             left: 0,
@@ -99,4 +99,4 @@ export const Map = forwardRef(
   }
 );
 
-Map.displayName = "Map";
+Map.displayName = 'Map';

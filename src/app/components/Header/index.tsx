@@ -9,10 +9,10 @@ import {
   Stack,
   useDisclosure,
   Link,
-} from "@chakra-ui/react";
-import { H3, H4, Paragraph } from "../Typography";
-import React from "react";
-import { List } from "@phosphor-icons/react";
+} from '@chakra-ui/react';
+import { H3, H4, Paragraph } from '../Typography';
+import React from 'react';
+import { List } from '@phosphor-icons/react';
 
 export const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -20,21 +20,21 @@ export const Header = () => {
 
   return (
     <Box
-      position={"absolute"}
+      position={'absolute'}
       top={0}
-      backgroundColor={"#000000e6"}
+      backgroundColor={'#000000e6'}
       color="white"
-      h={"4rem"}
-      display={"flex"}
-      alignItems={"center"}
-      justifyContent={"space-between"}
-      width={"100vw"}
+      h={'4rem'}
+      display={'flex'}
+      alignItems={'center'}
+      justifyContent={'space-between'}
+      width={'100vw'}
       px="1rem"
-      shadow={"1px 1px 5px black"}
-      whiteSpace={"nowrap"}
+      shadow={'1px 1px 5px black'}
+      whiteSpace={'nowrap'}
     >
-      <H4 fontWeight={"bold"}>DETROIT EVENT MAP</H4>
-      <Button ref={btnRef} backgroundColor={"transparent"} onClick={onOpen}>
+      <H4 fontWeight={'bold'}>DETROIT EVENT MAP</H4>
+      <Button ref={btnRef} backgroundColor={'transparent'} onClick={onOpen}>
         <List size="32" color="white" />
       </Button>
       <Drawer
@@ -42,11 +42,11 @@ export const Header = () => {
         placement="right"
         onClose={onClose}
         finalFocusRef={btnRef}
-        size={{ base: "full", md: "lg" }}
+        size={{ base: 'full', md: 'lg' }}
       >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton size={"lg"} />
+          <DrawerCloseButton size={'lg'} />
           <DrawerBody>
             <Stack gap={3}>
               <H3>ABOUT</H3>
@@ -93,7 +93,7 @@ export const Header = () => {
               </Paragraph>
               <H3>YOUR PRIVACY</H3>
               <Paragraph>
-                <strong>I don't want your data. </strong>
+                <strong>{`I don't want your data. `}</strong>
                 {`It's yours and it should stay that way. 
                 When the site asks for your location, it's not storing that information anywhere. 
                 It's just used to sort the events by distance from you. `}

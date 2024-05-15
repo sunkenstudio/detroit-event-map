@@ -27,7 +27,7 @@ export const Scrollview = ({
     return todaysEvents.map((i) => (
       <SwiperSlide
         key={`card-${i._id}`}
-        style={{ width: '45dvh', height: '45dvh' }}
+        style={{ width: '45dvh', height: '49dvh' }}
       >
         <EventCard event={i} />
       </SwiperSlide>
@@ -39,10 +39,10 @@ export const Scrollview = ({
       <Box
         zIndex={999}
         position={'absolute'}
-        bottom={'1rem'}
+        bottom={0}
         left={0}
         right={0}
-        height={'45dvh'}
+        height={'50dvh'}
         style={{ transform: transformStyle, transition: 'transform 0.3s ease' }}
       >
         <Swiper

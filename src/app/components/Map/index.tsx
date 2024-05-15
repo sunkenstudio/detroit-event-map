@@ -78,7 +78,7 @@ export const Map = forwardRef(
             latitude: activeEvent?.lat || DEFAULT_DET_COORDS.lat,
             zoom: 11,
           }}
-          mapStyle="mapbox://styles/mapbox/light-v11"
+          mapStyle={'mapbox://styles/danielwarrick/clw8dfydm008f01nxc8l78sac'}
           style={{
             position: 'absolute',
             top: 0,

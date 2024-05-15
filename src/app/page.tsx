@@ -113,7 +113,7 @@ export default function Home() {
       {todaysEvents.length > 0 && (
         <Box
           position={'absolute'}
-          bottom={'48dvh'}
+          bottom={'50dvh'}
           style={{
             transform: isExpanded ? 'translateY(0)' : 'translateY(30dvh)',
             transition: 'transform 0.3s ease',

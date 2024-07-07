@@ -63,15 +63,19 @@ export default function Home() {
   useEffect(() => {
     if (allEvents.length > 0 && location) {
       const todaysDate = selectedDate.format('YYYY-MM-DD');
-      const filteredEvents: EventData[] = allEvents.filter((i: EventData) => i.date === todaysDate);
+      const filteredEvents: EventData[] = allEvents.filter(
+        (i: EventData) => i.date === todaysDate
+      );
       const titles: string[] = [];
-      const dedupedEvents = filteredEvents.map((i)=>{
-        if(!titles.includes(i.title)){
-          titles.push(i.title);
-          return i;
-        }
-        return null;
-      }).filter((i)=>i) as EventData[];
+      const dedupedEvents = filteredEvents
+        .map((i) => {
+          if (!titles.includes(i.title)) {
+            titles.push(i.title);
+            return i;
+          }
+          return null;
+        })
+        .filter((i) => i) as EventData[];
 
       const sortedEvents = sortEventsByDistance(dedupedEvents, location);
       setTodaysEvents(sortedEvents);

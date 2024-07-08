@@ -19,10 +19,12 @@ export default function Home() {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
   const [selectedDate, setSelectedDate] = useState(moment());
   const [allEvents, setAllEvents] = useState<EventData[]>([]);
-  const [location, setLocation] = useState<Coordinates | null>(DEFAULT_DET_COORDS);
+  const [location, setLocation] = useState<Coordinates | null>(
+    DEFAULT_DET_COORDS
+  );
   const [isExpanded, setIsExpanded] = useState(false);
   const [initialExpand, setInitialExpand] = useState(false);
-  const [error, setError] = useState<GeolocationPositionError|null>(null);
+  const [error, setError] = useState<GeolocationPositionError | null>(null);
 
   useEffect(() => {
     if ('geolocation' in navigator) {
@@ -42,11 +44,11 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(()=>{
-    if(error){
+  useEffect(() => {
+    if (error) {
       setLocation(DEFAULT_DET_COORDS);
     }
-  },[error])
+  }, [error]);
 
   useEffect(() => {
     if (location) {
@@ -111,22 +113,22 @@ export default function Home() {
     let uniqueMap: Map<string, EventData> = new Map<string, EventData>();
 
     // Iterate through the array to filter out duplicates
-    arr.forEach(obj => {
-        // Create a key using title, lat, and lng
-        let key = `${obj.title}|${obj.lat}|${obj.lng}`;
+    arr.forEach((obj) => {
+      // Create a key using title, lat, and lng
+      let key = `${obj.title}|${obj.lat}|${obj.lng}`;
 
-        // Check if the map already has this key
-        if (!uniqueMap.has(key)) {
-            // If not, add this key to the map with the object as value
-            uniqueMap.set(key, obj);
-        }
+      // Check if the map already has this key
+      if (!uniqueMap.has(key)) {
+        // If not, add this key to the map with the object as value
+        uniqueMap.set(key, obj);
+      }
     });
 
     // Convert the map values back to an array
     let uniqueArray: EventData[] = Array.from(uniqueMap.values());
 
     return uniqueArray;
-}
+  };
 
   return (
     <main style={{ height: '100dvh', width: '100vw', overflow: 'hidden' }}>

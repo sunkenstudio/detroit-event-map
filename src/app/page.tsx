@@ -110,12 +110,12 @@ export default function Home() {
 
   const removeDuplicates = (arr: EventData[]): EventData[] => {
     // Create a map to store unique combinations of title, lat, and lng
-    let uniqueMap: Map<string, EventData> = new Map<string, EventData>();
+    const uniqueMap: Map<string, EventData> = new Map<string, EventData>();
 
     // Iterate through the array to filter out duplicates
     arr.forEach((obj) => {
       // Create a key using title, lat, and lng
-      let key = `${obj.title}|${obj.lat}|${obj.lng}`;
+      const key = `${obj.title}|${obj.lat}|${obj.lng}`;
 
       // Check if the map already has this key
       if (!uniqueMap.has(key)) {
@@ -125,7 +125,7 @@ export default function Home() {
     });
 
     // Convert the map values back to an array
-    let uniqueArray: EventData[] = Array.from(uniqueMap.values());
+    const uniqueArray: EventData[] = Array.from(uniqueMap.values());
 
     return uniqueArray;
   };

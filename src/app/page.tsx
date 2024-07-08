@@ -1,5 +1,5 @@
 'use client';
-import { Map } from './components/Map';
+import { Map as MapComponent } from './components/Map';
 import { useEffect, useRef, useState } from 'react';
 import { Coordinates, EventData } from './types';
 import SwiperCore from 'swiper';
@@ -19,9 +19,13 @@ export default function Home() {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
   const [selectedDate, setSelectedDate] = useState(moment());
   const [allEvents, setAllEvents] = useState<EventData[]>([]);
-  const [location, setLocation] = useState<Coordinates | null>(null);
+  const [location, setLocation] = useState<Coordinates | null>(
+    DEFAULT_DET_COORDS
+  );
   const [isExpanded, setIsExpanded] = useState(false);
   const [initialExpand, setInitialExpand] = useState(false);
+  const [error, setError] = useState<GeolocationPositionError | null>(null);
+
   useEffect(() => {
     if ('geolocation' in navigator) {
       // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
@@ -32,13 +36,19 @@ export default function Home() {
         },
         (error) => {
           console.log(error);
-          setLocation(DEFAULT_DET_COORDS);
+          setError(error);
         }
       );
     } else {
       setLocation(DEFAULT_DET_COORDS);
     }
   }, []);
+
+  useEffect(() => {
+    if (error) {
+      setLocation(DEFAULT_DET_COORDS);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (location) {
@@ -63,8 +73,11 @@ export default function Home() {
   useEffect(() => {
     if (allEvents.length > 0 && location) {
       const todaysDate = selectedDate.format('YYYY-MM-DD');
-      const filteredEvents = allEvents.filter((i) => i.date === todaysDate);
-      const sortedEvents = sortEventsByDistance(filteredEvents, location);
+      const filteredEvents: EventData[] = allEvents.filter(
+        (i: EventData) => i.date === todaysDate
+      );
+      const dedupedEvents = removeDuplicates(filteredEvents);
+      const sortedEvents = sortEventsByDistance(dedupedEvents, location);
       setTodaysEvents(sortedEvents);
       if (sortedEvents.length > 0) {
         setActiveEvent(sortedEvents[0]);
@@ -95,9 +108,31 @@ export default function Home() {
     }
   };
 
+  const removeDuplicates = (arr: EventData[]): EventData[] => {
+    // Create a map to store unique combinations of title, lat, and lng
+    const uniqueMap: Map<string, EventData> = new Map<string, EventData>();
+
+    // Iterate through the array to filter out duplicates
+    arr.forEach((obj) => {
+      // Create a key using title, lat, and lng
+      const key = `${obj.title}|${obj.lat}|${obj.lng}`;
+
+      // Check if the map already has this key
+      if (!uniqueMap.has(key)) {
+        // If not, add this key to the map with the object as value
+        uniqueMap.set(key, obj);
+      }
+    });
+
+    // Convert the map values back to an array
+    const uniqueArray: EventData[] = Array.from(uniqueMap.values());
+
+    return uniqueArray;
+  };
+
   return (
     <main style={{ height: '100dvh', width: '100vw', overflow: 'hidden' }}>
-      <Map
+      <MapComponent
         ref={mapRef}
         todaysEvents={todaysEvents}
         activeEvent={activeEvent}

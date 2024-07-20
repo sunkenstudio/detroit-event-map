@@ -11,12 +11,27 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { H3, H4, Paragraph } from '../Typography';
-import React from 'react';
-import { List } from '@phosphor-icons/react';
+import React, { useState } from 'react';
+import { List, UserCircle } from '@phosphor-icons/react';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 export const Header = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const aboutModal = useDisclosure();
+  const userModal = useDisclosure();
+  const aboutButtonRef = React.useRef(null);
+  const userButtonRef = React.useRef(null);
+
+  const handleGoogleAuthResponse = (response) => {
+    console.log(response);
+    const decoded = jwtDecode(response.credential);
+    console.log(decoded);
+    setIsAuthenticated(true);
+  };
+  const handleGoogleAuthError = (error) => {
+    console.log(error);
+  };
 
   return (
     <Box
@@ -34,14 +49,33 @@ export const Header = () => {
       whiteSpace={'nowrap'}
     >
       <H4 fontWeight={'bold'}>DETROIT EVENT MAP</H4>
-      <Button ref={btnRef} backgroundColor={'transparent'} onClick={onOpen}>
+      {isAuthenticated ? (
+        <Button
+          ref={userButtonRef}
+          backgroundColor={'transparent'}
+          onClick={userModal.onOpen}
+        >
+          <UserCircle size="32" color="white" />
+        </Button>
+      ) : (
+        <GoogleLogin
+          onSuccess={handleGoogleAuthResponse}
+          onError={handleGoogleAuthError}
+          scope={'profile email'} // Requesting profile and email scopes
+        />
+      )}
+      <Button
+        ref={aboutButtonRef}
+        backgroundColor={'transparent'}
+        onClick={aboutModal.onOpen}
+      >
         <List size="32" color="white" />
       </Button>
       <Drawer
-        isOpen={isOpen}
+        isOpen={aboutModal.isOpen}
         placement="right"
-        onClose={onClose}
-        finalFocusRef={btnRef}
+        onClose={aboutModal.onClose}
+        finalFocusRef={aboutButtonRef}
         size={{ base: 'full', md: 'lg' }}
       >
         <DrawerOverlay />
@@ -115,6 +149,19 @@ export const Header = () => {
               <Paragraph>- D.</Paragraph>
             </Stack>
           </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+      <Drawer
+        isOpen={userModal.isOpen}
+        placement="right"
+        onClose={userModal.onClose}
+        finalFocusRef={userButtonRef}
+        size={{ base: 'full', md: 'lg' }}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton size={'lg'} />
+          <DrawerBody>Form goes here?</DrawerBody>
         </DrawerContent>
       </Drawer>
     </Box>

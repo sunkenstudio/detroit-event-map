@@ -28,7 +28,6 @@ import { snakeCase } from 'lodash';
 
 export const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [tabIndex, setTabIndex] = useState(0);
   const aboutModal = useDisclosure();
   const userModal = useDisclosure();
   const aboutButtonRef = React.useRef(null);
@@ -162,7 +161,7 @@ export const Header = () => {
                 <br />
                 <br />
                 {` That said, `}
-                <strong>I'm encrypting everything</strong>
+                <strong>{`I'm encrypting everything`}</strong>
                 {` and setting things up the best I can to keep that data safe from aforementioned assholes.`}
               </Paragraph>
               <H3>THANKS AGAIN</H3>

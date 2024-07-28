@@ -6,7 +6,7 @@ import {
   Stack,
   Textarea,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { snakeCase } from 'lodash';
 
 type InputFieldType =
@@ -30,7 +30,7 @@ export interface InputFieldProps {
     options?: string[];
   };
   value: string;
-  onChange: (e: any) => void;
+  onChange: (e: ChangeEvent) => void;
 }
 
 export const InputField = ({ id, field, value, onChange }: InputFieldProps) => {

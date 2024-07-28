@@ -9,15 +9,26 @@ import {
   Stack,
   useDisclosure,
   Link,
+  HStack,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
 } from '@chakra-ui/react';
-import { H3, H4, Paragraph } from '../Typography';
+import { H3, H4, H5, Paragraph } from '../Typography';
 import React, { useState } from 'react';
 import { List, UserCircle } from '@phosphor-icons/react';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
+import { useFormik, FormikProvider } from 'formik';
+import { InputField } from '../InputField';
+import CreateSchema from './form.json';
+import { snakeCase } from 'lodash';
 
 export const Header = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [tabIndex, setTabIndex] = useState(0);
   const aboutModal = useDisclosure();
   const userModal = useDisclosure();
   const aboutButtonRef = React.useRef(null);
@@ -32,6 +43,13 @@ export const Header = () => {
   const handleGoogleAuthError = (error) => {
     console.log(error);
   };
+
+  const formik = useFormik({
+    initialValues: {} as Record<string, string>,
+    onSubmit: () => {
+      console.log(formik.values);
+    },
+  });
 
   return (
     <Box
@@ -49,7 +67,7 @@ export const Header = () => {
       whiteSpace={'nowrap'}
     >
       <H4 fontWeight={'bold'}>DETROIT EVENT MAP</H4>
-      {isAuthenticated ? (
+      <HStack>
         <Button
           ref={userButtonRef}
           backgroundColor={'transparent'}
@@ -57,20 +75,15 @@ export const Header = () => {
         >
           <UserCircle size="32" color="white" />
         </Button>
-      ) : (
-        <GoogleLogin
-          onSuccess={handleGoogleAuthResponse}
-          onError={handleGoogleAuthError}
-          scope={'profile email'} // Requesting profile and email scopes
-        />
-      )}
-      <Button
-        ref={aboutButtonRef}
-        backgroundColor={'transparent'}
-        onClick={aboutModal.onOpen}
-      >
-        <List size="32" color="white" />
-      </Button>
+
+        <Button
+          ref={aboutButtonRef}
+          backgroundColor={'transparent'}
+          onClick={aboutModal.onOpen}
+        >
+          <List size="32" color="white" />
+        </Button>
+      </HStack>
       <Drawer
         isOpen={aboutModal.isOpen}
         placement="right"
@@ -132,9 +145,25 @@ export const Header = () => {
                 When the site asks for your location, it's not storing that information anywhere. 
                 It's just used to sort the events by distance from you. `}
                 <strong>
-                  The site is fully usable without enabling location services
+                  The site is fully usable for finding events without enabling
+                  location services
                 </strong>
                 {`, it'll just set your location to downtown.`}
+                <br />
+                <br />
+                <strong>
+                  For those of you looking to upload events, I need to keep an
+                  email
+                </strong>
+                {` to make it possible to 
+                edit and remove those events. Otherwise, I have no way of telling which events belong to which user.
+                This is also gonna let us do some quality control and potentially block any spam or hateful events. 
+                God knows the internet is full of assholes these days.`}
+                <br />
+                <br />
+                {` That said, `}
+                <strong>I'm encrypting everything</strong>
+                {` and setting things up the best I can to keep that data safe from aforementioned assholes.`}
               </Paragraph>
               <H3>THANKS AGAIN</H3>
               <Paragraph>
@@ -161,7 +190,99 @@ export const Header = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton size={'lg'} />
-          <DrawerBody>Form goes here?</DrawerBody>
+          {isAuthenticated ? (
+            <DrawerBody
+              display={'flex'}
+              justifyContent={'space-between'}
+              flexDirection={'column'}
+            >
+              <Tabs variant="soft-rounded" colorScheme="red">
+                <TabList mb="1em">
+                  <Tab>My Events</Tab>
+                  <Tab>Create Event</Tab>
+                  <Tab>Log Out</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel>
+                    <Paragraph>No events yet</Paragraph>
+                  </TabPanel>
+                  <TabPanel>
+                    <FormikProvider value={formik}>
+                      <form
+                        onSubmit={formik.handleSubmit}
+                        style={{
+                          display: 'flex',
+                          width: '100%',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Stack w={'100%'}>
+                          {CreateSchema.map((i) => {
+                            const key = snakeCase(i.label);
+                            return (
+                              <InputField
+                                key={key}
+                                id={key}
+                                //@ts-ignore
+                                field={i}
+                                value={formik?.values?.[key]}
+                                onChange={formik.handleChange}
+                              />
+                            );
+                          })}
+                          <Paragraph>
+                            {`You can use this `}
+                            <Link
+                              href="https://www.gps-coordinates.net/"
+                              color="blue"
+                            >
+                              LINK
+                            </Link>
+                            {` to get the coordinates, I promise I will fix this next so alls you need is an address.`}
+                          </Paragraph>
+                          <Button
+                            type="submit"
+                            // isLoading={isFiring}
+                            w={'100%'}
+                          >
+                            SUBMIT
+                          </Button>
+                        </Stack>
+                      </form>
+                    </FormikProvider>
+                  </TabPanel>
+                  <TabPanel>
+                    <Button
+                      onClick={() => {
+                        setIsAuthenticated(false);
+                        userModal.onClose();
+                      }}
+                    >
+                      LOG OUT
+                    </Button>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </DrawerBody>
+          ) : (
+            <DrawerBody>
+              <Stack
+                justifyContent={'center'}
+                alignItems={'center'}
+                spacing={'3rem'}
+              >
+                <H3>Login / Create Account</H3>
+                <H5>
+                  This is just for artists/venues looking to create events
+                </H5>
+                <GoogleLogin
+                  onSuccess={handleGoogleAuthResponse}
+                  onError={handleGoogleAuthError}
+                  scope={'profile email'} // Requesting profile and email scopes
+                />
+              </Stack>
+            </DrawerBody>
+          )}
         </DrawerContent>
       </Drawer>
     </Box>

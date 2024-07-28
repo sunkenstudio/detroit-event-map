@@ -33,6 +33,16 @@ const theme = extendTheme({
     body: `${montserrat.style.fontFamily}, serif`,
     heading: `${ibmPlexSerif.style.fontFamily}, serif`,
   },
+  styles: {
+    global: {
+      'html, body': {
+        fontFamily: `${montserrat.style.fontFamily}, serif`,
+      },
+      '.mapboxgl-map': {
+        fontFamily: `${montserrat.style.fontFamily}, sans-serif !important`,
+      },
+    },
+  },
 });
 
 export default theme;

@@ -6,7 +6,6 @@ import React from 'react';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_API_ID as string;
-  console.log(googleClientId);
   return (
     <GoogleOAuthProvider clientId={googleClientId}>
       <ChakraProvider theme={theme}>{children}</ChakraProvider>

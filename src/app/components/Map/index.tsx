@@ -5,7 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { EventData } from '@/app/types';
 import { MapPin } from '@phosphor-icons/react';
 import { DEFAULT_DET_COORDS } from './constants';
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 
 // import the mapbox-gl styles so that the map is displayed correctly
 
@@ -49,12 +49,29 @@ export const Map = forwardRef(
             latitude={i.lat}
             anchor="bottom"
             onClick={() => handleMarkerOnClick(i._id)}
-            style={{ zIndex: isActive ? 1 : 0 }}
+            style={{
+              zIndex: isActive ? 1 : 0,
+              pointerEvents: isActive ? 'none' : 'all',
+            }}
           >
+            {isActive && (
+              <Text
+                backgroundColor={'#9D121A'}
+                color="white"
+                padding={'.5rem'}
+                border={'.1rem solid white'}
+                borderRadius={'.5rem'}
+                pointerEvents={isActive ? 'none' : 'all'}
+                fontWeight={'bold'}
+              >
+                {i.location.toUpperCase()}
+              </Text>
+            )}
             <MapPin
               color={isActive ? 'red' : 'black'}
               weight="fill"
               size={32}
+              pointerEvents={isActive ? 'none' : 'all'}
             />
           </Marker>
         );

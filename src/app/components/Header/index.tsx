@@ -15,33 +15,78 @@ import {
   Tab,
   TabPanels,
   TabPanel,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Flex,
+  Heading,
+  Text,
+  IconButton,
+  Divider,
 } from '@chakra-ui/react';
 import { H3, H4, H5, Paragraph } from '../Typography';
-import React, { useState } from 'react';
-import { List, UserCircle } from '@phosphor-icons/react';
-import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
+import React, { useEffect, useState } from 'react';
+import { List, UserCircle, MapPin } from '@phosphor-icons/react';
 import { useFormik, FormikProvider } from 'formik';
 import { InputField } from '../InputField';
 import CreateSchema from './form.json';
 import { snakeCase } from 'lodash';
+import { EventData } from '@/app/types';
+import { BASE_URL } from '@/app/utils';
+import GoogleButton from 'react-google-button';
+import { Link as LinkIcon } from '@phosphor-icons/react';
 
 export const Header = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [userId, setUserId] = useState<string>('');
+  const [userEvents, setUserEvents] = useState<EventData[]>([]);
   const aboutModal = useDisclosure();
   const userModal = useDisclosure();
   const aboutButtonRef = React.useRef(null);
   const userButtonRef = React.useRef(null);
 
-  const handleGoogleAuthResponse = (response) => {
-    console.log(response);
-    const decoded = jwtDecode(response.credential);
-    console.log(decoded);
-    setIsAuthenticated(true);
+  useEffect(() => {
+    const searchString = window.location.search;
+    const params = new URLSearchParams(searchString);
+    const id = params.get('id');
+    if (id) {
+      setUserId(id);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      // get user events
+      const url = `${BASE_URL}/events/user/${userId}`;
+      fetch(url, {
+        mode: 'cors',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((json: { events: EventData[] }) => {
+          setUserEvents(json.events);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [userId]);
+
+  const createAuthUser = async () => {
+    const url = BASE_URL + '/auth/google';
+    window.location.href = url;
   };
-  const handleGoogleAuthError = (error) => {
-    console.log(error);
-  };
+
+  function isFirstCharNumber(str: string) {
+    if (!str) return str; // Check if the string is empty
+    const firstChar = str.charAt(0);
+    if (!isNaN(Number(firstChar))) {
+      return `$${str}`;
+    }
+    return str;
+  }
 
   const formik = useFormik({
     initialValues: {} as Record<string, string>,
@@ -49,6 +94,92 @@ export const Header = () => {
       console.log(formik.values);
     },
   });
+
+  const renderMyEvents = () => {
+    if (userEvents.length === 0) {
+      return <Paragraph>No events yet</Paragraph>;
+    }
+    return (
+      <Stack spacing={'2rem'} divider={<Divider />}>
+        {userEvents.map((i) => (
+          <Stack>
+            <H5>{i.date}</H5>
+            <HStack>
+              <MapPin color={'red'} weight="fill" size={32} />
+              <Text
+                backgroundColor={'#9D121A'}
+                color="white"
+                padding={'.5rem'}
+                border={'.1rem solid white'}
+                borderRadius={'.5rem'}
+                fontWeight={'bold'}
+              >
+                {i.location.toUpperCase()}
+              </Text>
+            </HStack>
+            <Card size={'md'} backgroundColor={'#FEFEFE'}>
+              <CardHeader
+                h={'4rem'}
+                paddingTop={0}
+                backgroundColor={'#9D121A'}
+                color="#FEFEFE"
+                borderTopRadius={'inherit'}
+              >
+                <Flex alignItems="center" height={'4rem'} w="100%">
+                  <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
+                    <Heading size="md" textOverflow={'ellipsis'} noOfLines={2}>
+                      {i.title}
+                    </Heading>
+                  </Flex>
+                </Flex>
+              </CardHeader>
+              <CardBody
+                backgroundImage={i.img}
+                backgroundRepeat={'no-repeat'}
+                backgroundSize={'cover'}
+                backgroundPosition={'top'}
+                minH={{ base: '10rem', md: '15rem' }}
+              ></CardBody>
+              <CardFooter padding={'.5rem'} overflow={'hidden'}>
+                <HStack w={'100%'} justifyContent={'space-between'}>
+                  <Text
+                    color="white"
+                    backgroundColor={'#9D121A'}
+                    padding={'.5rem'}
+                    borderRadius={'.25rem'}
+                    fontSize={{ base: '.8rem', md: '1rem' }}
+                    textAlign={'center'}
+                    noOfLines={1}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    whiteSpace="nowrap"
+                    minW="25%"
+                  >
+                    {isFirstCharNumber(i.price || '') ||
+                      'Price not found. See link for details'}
+                  </Text>
+                  <Box backgroundColor={'#282929'} borderRadius={'5rem'}>
+                    <Link href={i.url} target="_blank">
+                      <IconButton
+                        variant="ghost"
+                        colorScheme="gray"
+                        aria-label="See menu"
+                        icon={<LinkIcon size={28} color={'#FEFEFE'} />}
+                      />
+                    </Link>
+                  </Box>
+                </HStack>
+              </CardFooter>
+            </Card>
+            <HStack>
+              <Button>EDIT</Button>
+              <Button>DELETE</Button>
+            </HStack>
+          </Stack>
+        ))}
+      </Stack>
+    );
+  };
 
   return (
     <Box
@@ -92,7 +223,7 @@ export const Header = () => {
       >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton size={'lg'} />
+          <DrawerCloseButton size={'lg'} zIndex={99} />
           <DrawerBody>
             <Stack gap={3}>
               <H3>ABOUT</H3>
@@ -188,8 +319,8 @@ export const Header = () => {
       >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton size={'lg'} />
-          {isAuthenticated ? (
+          <DrawerCloseButton size={'lg'} zIndex={99} />
+          {userId ? (
             <DrawerBody
               display={'flex'}
               justifyContent={'space-between'}
@@ -201,10 +332,9 @@ export const Header = () => {
                   <Tab>Create Event</Tab>
                   <Tab>Log Out</Tab>
                 </TabList>
+                <Divider />
                 <TabPanels>
-                  <TabPanel>
-                    <Paragraph>No events yet</Paragraph>
-                  </TabPanel>
+                  <TabPanel>{renderMyEvents()}</TabPanel>
                   <TabPanel>
                     <FormikProvider value={formik}>
                       <form
@@ -253,7 +383,7 @@ export const Header = () => {
                   <TabPanel>
                     <Button
                       onClick={() => {
-                        setIsAuthenticated(false);
+                        setUserId('');
                         userModal.onClose();
                       }}
                     >
@@ -274,11 +404,7 @@ export const Header = () => {
                 <H5>
                   This is just for artists/venues looking to create events
                 </H5>
-                <GoogleLogin
-                  onSuccess={handleGoogleAuthResponse}
-                  onError={handleGoogleAuthError}
-                  scope={'profile email'} // Requesting profile and email scopes
-                />
+                <GoogleButton onClick={() => createAuthUser()} />
               </Stack>
             </DrawerBody>
           )}

@@ -102,7 +102,7 @@ export const Header = () => {
     return (
       <Stack spacing={'2rem'} divider={<Divider />}>
         {userEvents.map((i) => (
-          <Stack>
+          <Stack key={i._id}>
             <H5>{i.date}</H5>
             <HStack>
               <MapPin color={'red'} weight="fill" size={32} />

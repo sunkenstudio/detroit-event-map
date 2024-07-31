@@ -27,19 +27,25 @@ import {
 } from '@chakra-ui/react';
 import { H3, H4, H5, Paragraph } from '../Typography';
 import React, { useEffect, useState } from 'react';
-import { List, UserCircle, MapPin } from '@phosphor-icons/react';
+import { List, UserCircle, MapPin, ArrowLeft } from '@phosphor-icons/react';
 import { useFormik, FormikProvider } from 'formik';
 import { InputField } from '../InputField';
 import CreateSchema from './form.json';
-import { snakeCase } from 'lodash';
+import { isEmpty, snakeCase } from 'lodash';
 import { EventData } from '@/app/types';
 import { BASE_URL } from '@/app/utils';
 import GoogleButton from 'react-google-button';
 import { Link as LinkIcon } from '@phosphor-icons/react';
+import moment from 'moment';
+import { CreateEventForm } from './CreateEventForm';
+import { EditEventForm } from './EditEventForm';
 
 export const Header = () => {
   const [userId, setUserId] = useState<string>('');
   const [userEvents, setUserEvents] = useState<EventData[]>([]);
+  const [selectedEvent, setSelectedEvent] = useState<
+    EventData | Record<string, never>
+  >({});
   const aboutModal = useDisclosure();
   const userModal = useDisclosure();
   const aboutButtonRef = React.useRef(null);
@@ -88,20 +94,17 @@ export const Header = () => {
     return str;
   }
 
-  const formik = useFormik({
-    initialValues: {} as Record<string, string>,
-    onSubmit: () => {
-      console.log(formik.values);
-    },
-  });
-
   const renderMyEvents = () => {
-    if (userEvents.length === 0) {
+    const events = userEvents.filter((i) =>
+      moment(i.date, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day')
+    );
+
+    if (events.length === 0) {
       return <Paragraph>No events yet</Paragraph>;
     }
     return (
       <Stack spacing={'2rem'} divider={<Divider />}>
-        {userEvents.map((i) => (
+        {events.map((i) => (
           <Stack key={i._id}>
             <H5>{i.date}</H5>
             <HStack>
@@ -172,7 +175,7 @@ export const Header = () => {
               </CardFooter>
             </Card>
             <HStack>
-              <Button>EDIT</Button>
+              <Button onClick={() => setSelectedEvent(i)}>EDIT</Button>
               <Button>DELETE</Button>
             </HStack>
           </Stack>
@@ -330,65 +333,36 @@ export const Header = () => {
                 <TabList mb="1em">
                   <Tab>My Events</Tab>
                   <Tab>Create Event</Tab>
-                  <Tab>Log Out</Tab>
+                  <Button
+                    onClick={() => {
+                      setUserId('');
+                      userModal.onClose();
+                    }}
+                    backgroundColor={'transparent'}
+                  >
+                    Log Out
+                  </Button>
                 </TabList>
                 <Divider />
                 <TabPanels>
-                  <TabPanel>{renderMyEvents()}</TabPanel>
                   <TabPanel>
-                    <FormikProvider value={formik}>
-                      <form
-                        onSubmit={formik.handleSubmit}
-                        style={{
-                          display: 'flex',
-                          width: '100%',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <Stack w={'100%'}>
-                          {CreateSchema.map((i) => {
-                            const key = snakeCase(i.label);
-                            return (
-                              <InputField
-                                key={key}
-                                id={key}
-                                //@ts-ignore
-                                field={i}
-                                value={formik?.values?.[key]}
-                                onChange={formik.handleChange}
-                              />
-                            );
-                          })}
-                          <Paragraph>
-                            {`You can use this `}
-                            <Link
-                              href="https://www.gps-coordinates.net/"
-                              color="blue"
-                            >
-                              LINK
-                            </Link>
-                            {` to get the coordinates, I promise I will fix this next so alls you need is an address.`}
-                          </Paragraph>
-                          <Button
-                            type="submit"
-                            // isLoading={isFiring}
-                            w={'100%'}
-                          >
-                            SUBMIT
-                          </Button>
-                        </Stack>
-                      </form>
-                    </FormikProvider>
+                    {isEmpty(selectedEvent) ? (
+                      renderMyEvents()
+                    ) : (
+                      <>
+                        <Button
+                          backgroundColor={'transparent'}
+                          onClick={() => setSelectedEvent({})}
+                          mb={'1rem'}
+                        >
+                          <ArrowLeft size="32" />
+                        </Button>
+                        <EditEventForm event={selectedEvent as EventData} />
+                      </>
+                    )}
                   </TabPanel>
                   <TabPanel>
-                    <Button
-                      onClick={() => {
-                        setUserId('');
-                        userModal.onClose();
-                      }}
-                    >
-                      LOG OUT
-                    </Button>
+                    <CreateEventForm />
                   </TabPanel>
                 </TabPanels>
               </Tabs>

@@ -17,7 +17,7 @@ export const EventCard = ({ event }: { event: EventData }) => {
   }
   const priceWithDollar = isFirstCharNumber(price || '');
   return (
-    <Card size={'md'} backgroundColor={'#FEFEFE'}>
+    <Card h={'100%'} backgroundColor={'#FEFEFE'}>
       <CardHeader
         h={'4rem'}
         paddingTop={0}

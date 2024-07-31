@@ -354,7 +354,10 @@ export const Header = () => {
                         >
                           <ArrowLeft size="32" />
                         </Button>
-                        <EditEventForm event={selectedEvent as EventData} />
+                        <EditEventForm
+                          userId={userId}
+                          event={selectedEvent as EventData}
+                        />
                       </>
                     )}
                   </TabPanel>

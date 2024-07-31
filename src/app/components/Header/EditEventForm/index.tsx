@@ -1,15 +1,21 @@
 import { FormikProvider, useFormik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
 import { Paragraph } from '../../Typography';
 import Link from 'next/link';
 import { EventData } from '@/app/types';
+import axios from 'axios';
+import { BASE_URL } from '@/app/utils';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface EditEventFormProps {
+  userId: string;
   event: EventData;
 }
 
-export const EditEventForm = ({ event }: EditEventFormProps) => {
+export const EditEventForm = ({ userId, event }: EditEventFormProps) => {
+  const [isFiring, setIsFiring] = useState(false);
   const editForm = useFormik({
     initialValues: {
       title: event.title,
@@ -23,7 +29,28 @@ export const EditEventForm = ({ event }: EditEventFormProps) => {
       price: event.price,
     },
     onSubmit: () => {
-      console.log(editForm.values);
+      setIsFiring(true);
+      axios
+        .post(`${BASE_URL}/events/${event._id}`, {
+          ...editForm.values,
+          userId,
+        })
+        .then((res) => {
+          setTimeout(() => {
+            setIsFiring(false);
+            toast.success('Event Updated!', {
+              position: 'top-center',
+            });
+          }, 1500);
+        })
+        .catch((err) => {
+          setTimeout(() => {
+            toast.error('Event Failed to Update', {
+              position: 'top-left',
+            });
+            setIsFiring(false);
+          }, 1500);
+        });
     },
   });
 
@@ -161,19 +188,6 @@ export const EditEventForm = ({ event }: EditEventFormProps) => {
               bgColor="white"
             />
           </FormControl>
-          {/* {CreateSchema.map((i) => {
-            const key = snakeCase(i.label);
-            return (
-              <InputField
-                key={key}
-                id={key}
-                //@ts-ignore
-                field={i}
-                value={editForm?.values?.[key]}
-                onChange={editForm.handleChange}
-              />
-            );
-          })} */}
           <Paragraph>
             {`You can use this `}
             <Link href="https://www.gps-coordinates.net/" color="blue">
@@ -183,13 +197,15 @@ export const EditEventForm = ({ event }: EditEventFormProps) => {
           </Paragraph>
           <Button
             type="submit"
-            // isLoading={isFiring}
+            isLoading={isFiring}
             w={'100%'}
+            colorScheme="red"
           >
             SAVE CHANGES
           </Button>
         </Stack>
       </form>
+      <ToastContainer />
     </FormikProvider>
   );
 };

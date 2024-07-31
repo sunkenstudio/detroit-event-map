@@ -1,0 +1,27 @@
+[
+  {
+    "value": "title",
+    "type": "text",
+    "label": "Event Title"
+  },
+  { "value": "img", "type": "text", "label": "Image Link" },
+  { "value": "date", "type": "text", "label": "Date (YYYY-MM-DD)" },
+  { "value": "url", "type": "text", "label": "External Link" },
+  {
+    "value": "address",
+    "type": "text",
+    "label": "Address (404 Woodward Ave., Detroit, MI)"
+  },
+  {
+    "value": "lat",
+    "type": "text",
+    "label": "Coordinates (Latitude) -- See below"
+  },
+  {
+    "value": "lng",
+    "type": "text",
+    "label": "Coordinates (Longitude) -- See below"
+  },
+  { "value": "location", "type": "text", "label": "Name of Venue" },
+  { "value": "price", "type": "text", "label": "Price (ex: $25)" }
+]

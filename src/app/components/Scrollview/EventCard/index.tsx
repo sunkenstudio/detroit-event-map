@@ -1,14 +1,23 @@
 import { HStack, Text, Flex, Heading, IconButton, Box } from '@chakra-ui/react';
-import { ArrowSquareOut } from '@phosphor-icons/react';
+import { Link as LinkIcon } from '@phosphor-icons/react';
 import { EventData } from '@/app/types';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react';
 import Link from 'next/link';
 
 export const EventCard = ({ event }: { event: EventData }) => {
-  const { title, img, location, price, url } = event;
+  const { title, img, price, url } = event;
 
+  function isFirstCharNumber(str: string) {
+    if (!str) return str; // Check if the string is empty
+    const firstChar = str.charAt(0);
+    if (!isNaN(Number(firstChar))) {
+      return `$${str}`;
+    }
+    return str;
+  }
+  const priceWithDollar = isFirstCharNumber(price || '');
   return (
-    <Card size={'md'} backgroundColor={'#FEFEFE'}>
+    <Card h={'100%'} backgroundColor={'#FEFEFE'}>
       <CardHeader
         h={'4rem'}
         paddingTop={0}
@@ -27,51 +36,39 @@ export const EventCard = ({ event }: { event: EventData }) => {
 
       <CardBody
         backgroundImage={img}
+        backgroundRepeat={'no-repeat'}
+        backgroundSize={'cover'}
         backgroundPosition={'top'}
         minH={{ base: '10rem', md: '15rem' }}
       ></CardBody>
-      <CardFooter h={'5rem'}>
-        <HStack width="100%">
+      <CardFooter padding={'.5rem'} overflow={'hidden'}>
+        <HStack w={'100%'} justifyContent={'space-between'}>
           <Text
             color="white"
             backgroundColor={'#9D121A'}
             padding={'.5rem'}
             borderRadius={'.25rem'}
-            textOverflow={'ellipsis'}
-            noOfLines={1}
-            overflow={'hidden'}
             fontSize={{ base: '.8rem', md: '1rem' }}
             textAlign={'center'}
+            noOfLines={1}
+            overflow="hidden"
+            textOverflow="ellipsis"
+            whiteSpace="nowrap"
+            minW="25%"
           >
-            {location}
+            {priceWithDollar || 'Price not found. See link for details'}
           </Text>
-          {price && (
-            <Text
-              color="white"
-              backgroundColor={'#9D121A'}
-              padding={'.5rem'}
-              borderRadius={'.25rem'}
-              textOverflow={'ellipsis'}
-              noOfLines={{ base: 1, md: 1 }}
-              maxW={'50%'}
-              overflow={'hidden'}
-              fontSize={{ base: '.8rem', md: '1rem' }}
-              textAlign={'center'}
-            >
-              {price}
-            </Text>
-          )}
+          <Box backgroundColor={'#282929'} borderRadius={'5rem'}>
+            <Link href={url} target="_blank">
+              <IconButton
+                variant="ghost"
+                colorScheme="gray"
+                aria-label="See menu"
+                icon={<LinkIcon size={28} color={'#FEFEFE'} />}
+              />
+            </Link>
+          </Box>
         </HStack>
-        <Box backgroundColor={'#282929'} borderRadius={'5rem'}>
-          <Link href={url} target="_blank">
-            <IconButton
-              variant="ghost"
-              colorScheme="gray"
-              aria-label="See menu"
-              icon={<ArrowSquareOut size={28} color={'#FEFEFE'} />}
-            />
-          </Link>
-        </Box>
       </CardFooter>
     </Card>
   );

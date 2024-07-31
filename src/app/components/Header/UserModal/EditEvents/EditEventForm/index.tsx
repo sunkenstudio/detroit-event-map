@@ -1,20 +1,25 @@
 import { FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { Button, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
-import { Paragraph } from '../../../Typography';
 import Link from 'next/link';
 import { EventData } from '@/app/types';
 import axios from 'axios';
 import { BASE_URL } from '@/app/utils';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Paragraph } from '@/app/components/Typography';
 
 interface EditEventFormProps {
   userId: string;
   event: EventData;
+  getUserEvents: () => void;
 }
 
-export const EditEventForm = ({ userId, event }: EditEventFormProps) => {
+export const EditEventForm = ({
+  userId,
+  event,
+  getUserEvents,
+}: EditEventFormProps) => {
   const [isFiring, setIsFiring] = useState(false);
   const editForm = useFormik({
     initialValues: {
@@ -44,6 +49,7 @@ export const EditEventForm = ({ userId, event }: EditEventFormProps) => {
           toast.success('Event Updated!', {
             position: 'top-center',
           });
+          getUserEvents();
         }, 1500);
       })
       .catch((err) => {

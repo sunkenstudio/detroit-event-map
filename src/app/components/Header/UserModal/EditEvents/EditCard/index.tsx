@@ -13,18 +13,25 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
-import { H5 } from '../../../Typography';
 import { MapPin } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { Link as LinkIcon } from '@phosphor-icons/react';
 import { EventData } from '@/app/types';
+import { H5 } from '@/app/components/Typography';
 
 interface EditCardProps {
   event: EventData;
+  isFiring: boolean;
   handleEdit: () => void;
+  handleDelete: () => void;
 }
 
-export const EditCard = ({ event, handleEdit }: EditCardProps) => {
+export const EditCard = ({
+  event,
+  isFiring,
+  handleEdit,
+  handleDelete,
+}: EditCardProps) => {
   function isFirstCharNumber(str: string) {
     if (!str) return str; // Check if the string is empty
     const firstChar = str.charAt(0);
@@ -104,8 +111,12 @@ export const EditCard = ({ event, handleEdit }: EditCardProps) => {
         </CardFooter>
       </Card>
       <HStack>
-        <Button onClick={handleEdit}>EDIT</Button>
-        <Button>DELETE</Button>
+        <Button onClick={handleEdit} isLoading={isFiring}>
+          EDIT
+        </Button>
+        <Button onClick={handleDelete} isLoading={isFiring}>
+          DELETE
+        </Button>
       </HStack>
     </Stack>
   );

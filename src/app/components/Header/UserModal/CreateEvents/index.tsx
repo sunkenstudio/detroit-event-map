@@ -7,7 +7,10 @@ import { InputField } from '../../../InputField';
 import { Paragraph } from '../../../Typography';
 import Link from 'next/link';
 
-export const CreateEvents = () => {
+interface CreateEventsProps {
+  getUserEvents: () => void;
+}
+export const CreateEvents = ({ getUserEvents }: CreateEventsProps) => {
   const createForm = useFormik({
     initialValues: {} as Record<string, string>,
     onSubmit: () => {

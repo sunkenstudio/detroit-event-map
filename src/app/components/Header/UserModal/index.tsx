@@ -38,23 +38,28 @@ export const UserModal = ({ buttonRef, modalProps }: UserModalProps) => {
 
   useEffect(() => {
     if (userId) {
-      // get user events
-      const url = `${BASE_URL}/events/user/${userId}`;
-      fetch(url, {
-        mode: 'cors',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((json: { events: EventData[] }) => {
-          setUserEvents(json.events);
-        })
-        .catch((err) => console.log(err));
+      getUserEvents();
     }
   }, [userId]);
+
+  const getUserEvents = () => {
+    console.log('getUserEvents');
+    // get user events
+    const url = `${BASE_URL}/events/user/${userId}`;
+    fetch(url, {
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((json: { events: EventData[] }) => {
+        setUserEvents(json.events);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const renderEventsPage = () => (
     <DrawerBody
@@ -78,8 +83,12 @@ export const UserModal = ({ buttonRef, modalProps }: UserModalProps) => {
         </TabList>
         <Divider />
         <TabPanels>
-          <EditEvents userId={userId} userEvents={userEvents} />
-          <CreateEvents />
+          <EditEvents
+            userId={userId}
+            userEvents={userEvents}
+            getUserEvents={() => getUserEvents()}
+          />
+          <CreateEvents getUserEvents={() => getUserEvents()} />
         </TabPanels>
       </Tabs>
     </DrawerBody>

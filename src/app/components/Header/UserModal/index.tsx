@@ -6,44 +6,26 @@ import {
   DrawerCloseButton,
   DrawerContent,
   DrawerOverlay,
-  Stack,
   Tab,
   TabList,
-  TabPanel,
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { ArrowLeft } from '@phosphor-icons/react';
-import { isEmpty } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { EditEventForm } from './EditEventForm';
-import { EventData } from '@/app/types';
-import { CreateEventForm } from './CreateEventForm';
-import { H3, H5, Paragraph } from '../../Typography';
-import GoogleButton from 'react-google-button';
+import { ChakraDisclosureProps, EventData } from '@/app/types';
+import { CreateEvents } from './CreateEvents';
 import { BASE_URL } from '@/app/utils';
-import moment from 'moment';
-import { EditCard } from './EditCard';
+import { Login } from './Login';
+import { EditEvents } from './EditEvents';
 
 interface UserModalProps {
   buttonRef: React.MutableRefObject<null>;
-  modalProps: {
-    isOpen: boolean;
-    onOpen: () => void;
-    onClose: () => void;
-    onToggle: () => void;
-    isControlled: boolean;
-    getButtonProps: (props?: any) => any;
-    getDisclosureProps: (props?: any) => any;
-  };
+  modalProps: ChakraDisclosureProps;
 }
+
 export const UserModal = ({ buttonRef, modalProps }: UserModalProps) => {
   const [userId, setUserId] = useState<string>('');
   const [userEvents, setUserEvents] = useState<EventData[]>([]);
-
-  const [selectedEvent, setSelectedEvent] = useState<
-    EventData | Record<string, never>
-  >({});
 
   useEffect(() => {
     const searchString = window.location.search;
@@ -74,31 +56,34 @@ export const UserModal = ({ buttonRef, modalProps }: UserModalProps) => {
     }
   }, [userId]);
 
-  const createAuthUser = async () => {
-    const url = BASE_URL + '/auth/google';
-    window.location.href = url;
-  };
-
-  const renderMyEvents = () => {
-    const events = userEvents.filter((i) =>
-      moment(i.date, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day')
-    );
-
-    if (events.length === 0) {
-      return <Paragraph>No events yet</Paragraph>;
-    }
-    return (
-      <Stack spacing={'2rem'} divider={<Divider />}>
-        {events.map((i) => (
-          <EditCard
-            key={i._id}
-            event={i}
-            handleEdit={() => setSelectedEvent(i)}
-          />
-        ))}
-      </Stack>
-    );
-  };
+  const renderEventsPage = () => (
+    <DrawerBody
+      display={'flex'}
+      justifyContent={'space-between'}
+      flexDirection={'column'}
+    >
+      <Tabs variant="soft-rounded" colorScheme="red">
+        <TabList mb="1em">
+          <Tab>My Events</Tab>
+          <Tab>Create Event</Tab>
+          <Button
+            onClick={() => {
+              setUserId('');
+              modalProps.onClose();
+            }}
+            backgroundColor={'transparent'}
+          >
+            Log Out
+          </Button>
+        </TabList>
+        <Divider />
+        <TabPanels>
+          <EditEvents userId={userId} userEvents={userEvents} />
+          <CreateEvents />
+        </TabPanels>
+      </Tabs>
+    </DrawerBody>
+  );
 
   return (
     <Drawer
@@ -111,66 +96,7 @@ export const UserModal = ({ buttonRef, modalProps }: UserModalProps) => {
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton size={'lg'} zIndex={99} />
-        {userId ? (
-          <DrawerBody
-            display={'flex'}
-            justifyContent={'space-between'}
-            flexDirection={'column'}
-          >
-            <Tabs variant="soft-rounded" colorScheme="red">
-              <TabList mb="1em">
-                <Tab>My Events</Tab>
-                <Tab>Create Event</Tab>
-                <Button
-                  onClick={() => {
-                    setUserId('');
-                    modalProps.onClose();
-                  }}
-                  backgroundColor={'transparent'}
-                >
-                  Log Out
-                </Button>
-              </TabList>
-              <Divider />
-              <TabPanels>
-                <TabPanel>
-                  {isEmpty(selectedEvent) ? (
-                    renderMyEvents()
-                  ) : (
-                    <>
-                      <Button
-                        backgroundColor={'transparent'}
-                        onClick={() => setSelectedEvent({})}
-                        mb={'1rem'}
-                      >
-                        <ArrowLeft size="32" />
-                      </Button>
-                      <EditEventForm
-                        userId={userId}
-                        event={selectedEvent as EventData}
-                      />
-                    </>
-                  )}
-                </TabPanel>
-                <TabPanel>
-                  <CreateEventForm />
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </DrawerBody>
-        ) : (
-          <DrawerBody>
-            <Stack
-              justifyContent={'center'}
-              alignItems={'center'}
-              spacing={'3rem'}
-            >
-              <H3>Login / Create Account</H3>
-              <H5>This is just for artists/venues looking to create events</H5>
-              <GoogleButton onClick={() => createAuthUser()} />
-            </Stack>
-          </DrawerBody>
-        )}
+        {!userId ? <Login /> : renderEventsPage()}
       </DrawerContent>
     </Drawer>
   );

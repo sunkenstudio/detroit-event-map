@@ -9,18 +9,11 @@ import {
 import React from 'react';
 import { H3, Paragraph } from '../../Typography';
 import Link from 'next/link';
+import { ChakraDisclosureProps } from '@/app/types';
 
 interface AboutModalProps {
   buttonRef: React.MutableRefObject<null>;
-  modalProps: {
-    isOpen: boolean;
-    onOpen: () => void;
-    onClose: () => void;
-    onToggle: () => void;
-    isControlled: boolean;
-    getButtonProps: (props?: any) => any;
-    getDisclosureProps: (props?: any) => any;
-  };
+  modalProps: ChakraDisclosureProps;
 }
 export const AboutModal = ({ buttonRef, modalProps }: AboutModalProps) => {
   return (

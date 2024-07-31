@@ -13,7 +13,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
-import { H5 } from '../../Typography';
+import { H5 } from '../../../Typography';
 import { MapPin } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { Link as LinkIcon } from '@phosphor-icons/react';

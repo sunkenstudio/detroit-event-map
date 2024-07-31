@@ -1,10 +1,10 @@
 import { Button, Stack } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import React from 'react';
-import CreateSchema from '../form.json';
+import CreateSchema from '../../form.json';
 import { snakeCase } from 'lodash';
-import { InputField } from '../../InputField';
-import { Paragraph } from '../../Typography';
+import { InputField } from '../../../InputField';
+import { Paragraph } from '../../../Typography';
 import Link from 'next/link';
 
 export const CreateEventForm = () => {

@@ -1,7 +1,7 @@
 import { FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { Button, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
-import { Paragraph } from '../../Typography';
+import { Paragraph } from '../../../Typography';
 import Link from 'next/link';
 import { EventData } from '@/app/types';
 import axios from 'axios';

@@ -85,7 +85,11 @@ export const Header = () => {
     return (
       <Stack spacing={'2rem'} divider={<Divider />}>
         {events.map((i) => (
-          <EditCard event={i} handleEdit={() => setSelectedEvent(i)} />
+          <EditCard
+            key={i._id}
+            event={i}
+            handleEdit={() => setSelectedEvent(i)}
+          />
         ))}
       </Stack>
     );

@@ -28,10 +28,7 @@ import {
 import { H3, H4, H5, Paragraph } from '../Typography';
 import React, { useEffect, useState } from 'react';
 import { List, UserCircle, MapPin, ArrowLeft } from '@phosphor-icons/react';
-import { useFormik, FormikProvider } from 'formik';
-import { InputField } from '../InputField';
-import CreateSchema from './form.json';
-import { isEmpty, snakeCase } from 'lodash';
+import { isEmpty } from 'lodash';
 import { EventData } from '@/app/types';
 import { BASE_URL } from '@/app/utils';
 import GoogleButton from 'react-google-button';

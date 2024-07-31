@@ -1,9 +1,6 @@
 import { FormikProvider, useFormik } from 'formik';
-import React, { useEffect } from 'react';
-import CreateSchema from '../form.json';
-import { snakeCase } from 'lodash';
+import React from 'react';
 import { Button, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
-import { InputField } from '../../InputField';
 import { Paragraph } from '../../Typography';
 import Link from 'next/link';
 import { EventData } from '@/app/types';

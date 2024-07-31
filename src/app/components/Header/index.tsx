@@ -15,27 +15,19 @@ import {
   Tab,
   TabPanels,
   TabPanel,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Flex,
-  Heading,
-  Text,
-  IconButton,
   Divider,
 } from '@chakra-ui/react';
 import { H3, H4, H5, Paragraph } from '../Typography';
 import React, { useEffect, useState } from 'react';
-import { List, UserCircle, MapPin, ArrowLeft } from '@phosphor-icons/react';
+import { List, UserCircle, ArrowLeft } from '@phosphor-icons/react';
 import { isEmpty } from 'lodash';
 import { EventData } from '@/app/types';
 import { BASE_URL } from '@/app/utils';
 import GoogleButton from 'react-google-button';
-import { Link as LinkIcon } from '@phosphor-icons/react';
 import moment from 'moment';
 import { CreateEventForm } from './CreateEventForm';
 import { EditEventForm } from './EditEventForm';
+import { EditCard } from './EditCard';
 
 export const Header = () => {
   const [userId, setUserId] = useState<string>('');
@@ -82,15 +74,6 @@ export const Header = () => {
     window.location.href = url;
   };
 
-  function isFirstCharNumber(str: string) {
-    if (!str) return str; // Check if the string is empty
-    const firstChar = str.charAt(0);
-    if (!isNaN(Number(firstChar))) {
-      return `$${str}`;
-    }
-    return str;
-  }
-
   const renderMyEvents = () => {
     const events = userEvents.filter((i) =>
       moment(i.date, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day')
@@ -102,80 +85,7 @@ export const Header = () => {
     return (
       <Stack spacing={'2rem'} divider={<Divider />}>
         {events.map((i) => (
-          <Stack key={i._id}>
-            <H5>{i.date}</H5>
-            <HStack>
-              <MapPin color={'red'} weight="fill" size={32} />
-              <Text
-                backgroundColor={'#9D121A'}
-                color="white"
-                padding={'.5rem'}
-                border={'.1rem solid white'}
-                borderRadius={'.5rem'}
-                fontWeight={'bold'}
-              >
-                {i.location.toUpperCase()}
-              </Text>
-            </HStack>
-            <Card size={'md'} backgroundColor={'#FEFEFE'}>
-              <CardHeader
-                h={'4rem'}
-                paddingTop={0}
-                backgroundColor={'#9D121A'}
-                color="#FEFEFE"
-                borderTopRadius={'inherit'}
-              >
-                <Flex alignItems="center" height={'4rem'} w="100%">
-                  <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-                    <Heading size="md" textOverflow={'ellipsis'} noOfLines={2}>
-                      {i.title}
-                    </Heading>
-                  </Flex>
-                </Flex>
-              </CardHeader>
-              <CardBody
-                backgroundImage={i.img}
-                backgroundRepeat={'no-repeat'}
-                backgroundSize={'cover'}
-                backgroundPosition={'top'}
-                minH={{ base: '10rem', md: '15rem' }}
-              ></CardBody>
-              <CardFooter padding={'.5rem'} overflow={'hidden'}>
-                <HStack w={'100%'} justifyContent={'space-between'}>
-                  <Text
-                    color="white"
-                    backgroundColor={'#9D121A'}
-                    padding={'.5rem'}
-                    borderRadius={'.25rem'}
-                    fontSize={{ base: '.8rem', md: '1rem' }}
-                    textAlign={'center'}
-                    noOfLines={1}
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                    whiteSpace="nowrap"
-                    minW="25%"
-                  >
-                    {isFirstCharNumber(i.price || '') ||
-                      'Price not found. See link for details'}
-                  </Text>
-                  <Box backgroundColor={'#282929'} borderRadius={'5rem'}>
-                    <Link href={i.url} target="_blank">
-                      <IconButton
-                        variant="ghost"
-                        colorScheme="gray"
-                        aria-label="See menu"
-                        icon={<LinkIcon size={28} color={'#FEFEFE'} />}
-                      />
-                    </Link>
-                  </Box>
-                </HStack>
-              </CardFooter>
-            </Card>
-            <HStack>
-              <Button onClick={() => setSelectedEvent(i)}>EDIT</Button>
-              <Button>DELETE</Button>
-            </HStack>
-          </Stack>
+          <EditCard event={i} handleEdit={() => setSelectedEvent(i)} />
         ))}
       </Stack>
     );

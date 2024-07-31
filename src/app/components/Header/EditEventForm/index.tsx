@@ -28,32 +28,34 @@ export const EditEventForm = ({ userId, event }: EditEventFormProps) => {
       location: event.location,
       price: event.price,
     },
-    onSubmit: () => {
-      setIsFiring(true);
-      axios
-        .post(`${BASE_URL}/events/${event._id}`, {
-          ...editForm.values,
-          userId,
-        })
-        .then(() => {
-          setTimeout(() => {
-            setIsFiring(false);
-            toast.success('Event Updated!', {
-              position: 'top-center',
-            });
-          }, 1500);
-        })
-        .catch((err) => {
-          setTimeout(() => {
-            toast.error('Event Failed to Update', {
-              position: 'top-left',
-            });
-            console.log(err);
-            setIsFiring(false);
-          }, 1500);
-        });
-    },
+    onSubmit: () => updateEvent(),
   });
+
+  const updateEvent = () => {
+    setIsFiring(true);
+    axios
+      .post(`${BASE_URL}/events/${event._id}`, {
+        ...editForm.values,
+        userId,
+      })
+      .then(() => {
+        setTimeout(() => {
+          setIsFiring(false);
+          toast.success('Event Updated!', {
+            position: 'top-center',
+          });
+        }, 1500);
+      })
+      .catch((err) => {
+        setTimeout(() => {
+          toast.error('Event Failed to Update', {
+            position: 'top-left',
+          });
+          console.log(err);
+          setIsFiring(false);
+        }, 1500);
+      });
+  };
 
   return (
     <FormikProvider value={editForm}>

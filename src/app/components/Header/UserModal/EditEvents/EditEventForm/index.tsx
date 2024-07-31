@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { EventData } from '@/app/types';
 import axios from 'axios';
 import { BASE_URL } from '@/app/utils';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { Paragraph } from '@/app/components/Typography';
 
 interface EditEventFormProps {
@@ -199,7 +198,11 @@ export const EditEventForm = ({
           </FormControl>
           <Paragraph>
             {`You can use this `}
-            <Link href="https://www.gps-coordinates.net/" color="blue">
+            <Link
+              href="https://www.gps-coordinates.net/"
+              color="blue"
+              target="_blank"
+            >
               LINK
             </Link>
             {` to get the coordinates, I promise I will fix this next so all you need is an address.`}
@@ -214,7 +217,6 @@ export const EditEventForm = ({
           </Button>
         </Stack>
       </form>
-      <ToastContainer />
     </FormikProvider>
   );
 };

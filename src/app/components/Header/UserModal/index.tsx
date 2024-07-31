@@ -17,6 +17,8 @@ import { CreateEvents } from './CreateEvents';
 import { BASE_URL } from '@/app/utils';
 import { Login } from './Login';
 import { EditEvents } from './EditEvents';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface UserModalProps {
   buttonRef: React.MutableRefObject<null>;
@@ -88,7 +90,7 @@ export const UserModal = ({ buttonRef, modalProps }: UserModalProps) => {
             userEvents={userEvents}
             getUserEvents={() => getUserEvents()}
           />
-          <CreateEvents getUserEvents={() => getUserEvents()} />
+          <CreateEvents userId={userId} getUserEvents={() => getUserEvents()} />
         </TabPanels>
       </Tabs>
     </DrawerBody>
@@ -107,6 +109,7 @@ export const UserModal = ({ buttonRef, modalProps }: UserModalProps) => {
         <DrawerCloseButton size={'lg'} zIndex={99} />
         {!userId ? <Login /> : renderEventsPage()}
       </DrawerContent>
+      <ToastContainer />
     </Drawer>
   );
 };

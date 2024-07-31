@@ -35,7 +35,7 @@ export const EditEventForm = ({ userId, event }: EditEventFormProps) => {
           ...editForm.values,
           userId,
         })
-        .then((res) => {
+        .then(() => {
           setTimeout(() => {
             setIsFiring(false);
             toast.success('Event Updated!', {
@@ -48,6 +48,7 @@ export const EditEventForm = ({ userId, event }: EditEventFormProps) => {
             toast.error('Event Failed to Update', {
               position: 'top-left',
             });
+            console.log(err);
             setIsFiring(false);
           }, 1500);
         });

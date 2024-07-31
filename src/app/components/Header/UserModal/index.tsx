@@ -35,6 +35,7 @@ export const UserModal = ({ buttonRef, modalProps }: UserModalProps) => {
     const id = params.get('id');
     if (id) {
       setUserId(id);
+      window.history.replaceState(null, '', window.location.pathname);
     }
   }, []);
 

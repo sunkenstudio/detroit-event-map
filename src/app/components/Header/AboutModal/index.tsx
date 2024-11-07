@@ -31,45 +31,28 @@ export const AboutModal = ({ buttonRef, modalProps }: AboutModalProps) => {
           <Stack gap={3}>
             <H3>ABOUT</H3>
             <Paragraph>
-              {`I made this site to make it easier to see nearby stuff without
-                having to dig through social media and tbh I've been spending
-                too much time at home lately.`}
+              {`I originally made this site to make it easier to see nearby stuff without
+                having to dig through social media but times have changed and it's not as easy
+                to aggregate public event data these days.`}
             </Paragraph>
             <Paragraph>
-              {`Currently the app only tracks what's going on this week with `}
-              <strong>
-                {`new events getting added every Sunday @ 9:00am`}
-              </strong>
-              {`. Could probably expand that out to a month if people wanted,
-                but personally, I'm not that much of a planner.`}
+              {`That said, I'll still be keeping this site live for people/artists/venues to submit their 
+              own events if they'd rather not use one of the bigger companies`}
             </Paragraph>
-            <H3>SOURCES</H3>
-            <ul>
-              <li>
-                <Link href="https://www.metrotimes.com/" target="_blank">
-                  Metro Times
-                </Link>
-              </li>
-              <li>More coming soon...</li>
-            </ul>
+            <H3>Uploading Events</H3>
             <Paragraph>
-              {`Anything you see on this site is public data pulled from somewhere else. Please consider
-                subscribing to the actual sources doing the real work. If you
-                happen to meet anyone working for these sources, please buy them
-                many beers.`}
+              {`If you've got an event you're looking to promote, you can create an account with a gmail and post away!`}
             </Paragraph>
             <H3>COVERING MY ASS</H3>
             <Paragraph>
               <strong>IMPORTANT!</strong>
-              {` All these events are just being
-                pulled off the internet, so please
+              <br />
+              {`All these events are now user submitted, so please
                 don't show up if it looks like it could be some sketchy shit.`}
             </Paragraph>
             <Paragraph>
               {`I do not claim ownership of any content you see in these events
-                and I am not currently monetizing this site in any way. You can
-                find a link to the original sources by clicking the information
-                icon on each event.`}
+                and I am not currently monetizing this site in any way.`}
             </Paragraph>
             <H3>YOUR PRIVACY</H3>
             <Paragraph>
@@ -94,9 +77,7 @@ export const AboutModal = ({ buttonRef, modalProps }: AboutModalProps) => {
                 God knows the internet is full of assholes these days.`}
               <br />
               <br />
-              {` That said, `}
-              <strong>{`I'm encrypting everything`}</strong>
-              {` and setting things up the best I can to keep that data safe from aforementioned assholes.`}
+              {`That said, I'm setting things up the best I can to keep that data safe from aforementioned assholes.`}
             </Paragraph>
             <H3>THANKS AGAIN</H3>
             <Paragraph>
